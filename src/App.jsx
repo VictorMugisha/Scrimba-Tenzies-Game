@@ -21,8 +21,21 @@ export default function App() {
   }
 
   function rollDice() {
-    setDice(allNewDice())
-  }
+    setDice(prevDice => {
+        const newArray = prevDice.map(die => {
+            if (die.isHeld) {
+                return die
+            } else {
+                return {
+                    value: Math.ceil(Math.random() * 6),
+                    isHeld: false,
+                    id: nanoid()
+                }
+            }
+        })
+        return newArray
+    })
+}
 
   function holdDice(id) {
     setDice(oldDice => oldDice.map(die => {
